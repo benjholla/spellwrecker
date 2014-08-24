@@ -1,0 +1,38 @@
+*.class
+*.jar
+bin/
+gen/
+tmp/
+
+#Eclipse junk
+.settings/
+local.properties
+
+#Backup, swap, MacOS dir file, etc.
+*~
+*.lock
+*.DS_Store
+*.swp
+*.out
+*.cache
+Thumbs.db
+
+# Eclipse-specific
+*.pydevproject
+.metadata
+*.tmp
+*.bak
+*.swp
+*~.nib
+*.loadpath
+*.cache
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.war
+*.ear
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
