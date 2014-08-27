@@ -4,7 +4,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Random;
 
-import spellwrecker.MarkovSpellWrecker;
+import spellwrecker.spellwreckers.MarkovSpellWrecker;
 
 
 public class TestMarkovSpellWrecker {
@@ -21,9 +21,9 @@ public static void main(String[] args) throws Exception {
 		System.out.println(input);
 		for(char c : input.toCharArray()){
 			if(new Random().nextInt(10) == 0){ // spellwreck 1/10 times
-				wrecker.spellwreck(c, MarkovSpellWrecker.Typo.values()[new Random().nextInt(3)]);
+				System.out.println(wrecker.spellwreck(c));
 			} else {
-				wrecker.spellwreck(c, MarkovSpellWrecker.Typo.NONE);
+				System.out.println(c);
 			}
 		}
 	}
