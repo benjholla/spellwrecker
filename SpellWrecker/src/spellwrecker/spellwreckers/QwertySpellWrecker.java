@@ -3,7 +3,7 @@ package spellwrecker.spellwreckers;
 import java.util.Random;
 
 /**
- * Using the QWERTY keyboard layout typo generator.  
+ * Uses the QWERTY keyboard layout as cheap means for a typo generator 
  * Picks a suitable typo based on keys that are physically located near each other on a QWERTY keyboard.
  */
 public class QwertySpellWrecker {
@@ -61,7 +61,7 @@ public class QwertySpellWrecker {
 			}
 		}
 		
-		// return the input if a typo cannot be generated
+		// just return the original input if a typo cannot be generated
 		return input;
 	}
 	
