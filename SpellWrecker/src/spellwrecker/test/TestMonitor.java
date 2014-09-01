@@ -59,25 +59,24 @@ public class TestMonitor {
 		keystrokesPerUnitLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		frame.getContentPane().add(keystrokesPerUnitLabel, BorderLayout.NORTH);
 		
-		final Monitor monitor = new Monitor(1000);
-		final Random rnd = new Random();
+		final Monitor monitor = new Monitor(1000, 5); // 1 second window, with 5 second history
 		
 		monitoredTextArea.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent e) {
-				monitor.observe();
-				keystrokesPerUnitLabel.setText("Keystrokes Per Second: " + monitor.getObservations() 
-						+ ", Max: " + monitor.getMaxObservations());
-				
-				if(monitor.getObservations() > 6 && monitor.getObservations() == monitor.getMaxObservations()){
-					if(rnd.nextInt(4) == 0){
-						e.setKeyChar(QwertySpellWrecker.spellwreck(e.getKeyChar()));
-						monitor.resetMaxObservations();
-						keystrokesPerUnitLabel.setForeground(Color.RED);
-					}
-				} else {
-					keystrokesPerUnitLabel.setForeground(Color.BLACK);
-				}
+//				monitor.observe();
+//				keystrokesPerUnitLabel.setText("Keystrokes Per Second: " + monitor.getObservations() 
+//						+ ", Max: " + monitor.getMaxObservations());
+//				
+//				if(monitor.getObservations() > 6 && monitor.getObservations() == monitor.getMaxObservations()){
+//					if(rnd.nextInt(4) == 0){
+//						e.setKeyChar(QwertySpellWrecker.spellwreck(e.getKeyChar()));
+//						monitor.resetMaxObservations();
+//						keystrokesPerUnitLabel.setForeground(Color.RED);
+//					}
+//				} else {
+//					keystrokesPerUnitLabel.setForeground(Color.BLACK);
+//				}
 			}
 		});
 	}
