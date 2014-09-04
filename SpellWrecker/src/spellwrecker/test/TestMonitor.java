@@ -12,8 +12,8 @@ import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
-import spellwrecker.monitors.Monitor;
-import spellwrecker.spellwreckers.QwertySpellWrecker;
+import spellwrecker.components.monitors.Monitor;
+import spellwrecker.components.spellwreckers.QwertySpellWrecker;
 
 public class TestMonitor {
 

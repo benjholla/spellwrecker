@@ -4,7 +4,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Random;
 
-import spellwrecker.spellwreckers.MarkovSpellWrecker;
+import spellwrecker.components.spellwreckers.MarkovSpellWrecker;
 
 
 public class TestMarkovSpellWrecker {

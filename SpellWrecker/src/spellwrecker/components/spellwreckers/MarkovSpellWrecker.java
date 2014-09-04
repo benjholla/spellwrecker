@@ -1,4 +1,4 @@
-package spellwrecker.spellwreckers;
+package spellwrecker.components.spellwreckers;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;

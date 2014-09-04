@@ -1,4 +1,4 @@
-package spellwrecker.monitors;
+package spellwrecker.components.monitors;
 
 public class Monitor {
 	

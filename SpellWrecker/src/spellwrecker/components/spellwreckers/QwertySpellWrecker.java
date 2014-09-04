@@ -1,4 +1,4 @@
-package spellwrecker.spellwreckers;
+package spellwrecker.components.spellwreckers;
 
 import java.util.Random;
 

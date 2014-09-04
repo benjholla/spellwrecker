@@ -1,6 +1,6 @@
 package spellwrecker.test;
 
-import spellwrecker.spellwreckers.QwertySpellWrecker;
+import spellwrecker.components.spellwreckers.QwertySpellWrecker;
 
 public class TestQwertySpellWrecker {
 
