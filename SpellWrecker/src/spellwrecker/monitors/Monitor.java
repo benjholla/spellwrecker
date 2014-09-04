@@ -9,12 +9,12 @@ public class Monitor {
 	
 	public Monitor(long windowLength, int windowHistory){
 		this.windowLength = windowLength;
-		this.observations = new int[windowHistory];
-		this.timestamps = new long[windowHistory];
+		this.observations = new int[windowHistory + 1];
+		this.timestamps = new long[windowHistory + 1];
 		
 		// initialize the timestamps array
 		long currentTimestamp = System.currentTimeMillis();
-		for(int i=1; i<=windowHistory; i++){
+		for(int i=1; i<=timestamps.length; i++){
 			timestamps[i-1] = currentTimestamp + (i * windowLength);
 		}
 	}
@@ -48,6 +48,49 @@ public class Monitor {
 			result += observations[i];
 		}
 		return result / (double) observations.length;
+	}
+
+	public int getMaxObservations() {
+		int result = 0;
+		for(int i=0; i<observations.length; i++){
+			if(observations[i] > result){
+				result = observations[i];
+			}
+		}
+		return result;
+	}
+	
+	// TODO: Don't use this algorithm as advised on http://stackoverflow.com/a/14839593/475329
+	public double getHistoricalStandardDeviation(){
+		int[] history = getHistoricalObservations();
+		
+		// calculate the mean
+		double sum = 0.0;
+        for(int i=0; i<history.length; i++){
+        	sum += observations[i];
+        }
+		double mean = ((double) sum) / ((double) history.length);
+		
+		// calculate the standard variance
+		double temp = 0;
+        for(int i=0; i<history.length; i++){
+        	double x = (double) observations[i];
+        	temp += (mean-x)*(mean-x);
+        }
+        double variance = temp/((double)history.length);
+        
+		return Math.sqrt(variance);
+	}
+	
+	public int[] getHistoricalObservations(){
+		int size = observations.length-1;
+		int offset = (index + 1) % observations.length;;
+		int[] historicalObservations = new int[size];
+		for(int i=0; i<size; i++){
+			historicalObservations[i] = observations[offset];
+			offset = (offset + 1) % observations.length;
+		}
+		return historicalObservations;
 	}
  
 }

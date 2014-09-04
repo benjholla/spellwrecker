@@ -5,7 +5,7 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.Random;
+import java.util.Arrays;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -41,6 +41,8 @@ public class TestMonitor {
 	public TestMonitor() {
 		initialize();
 	}
+	
+	private long lastAction = System.currentTimeMillis();
 
 	/**
 	 * Initialize the contents of the frame.
@@ -64,19 +66,24 @@ public class TestMonitor {
 		monitoredTextArea.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent e) {
-//				monitor.observe();
-//				keystrokesPerUnitLabel.setText("Keystrokes Per Second: " + monitor.getObservations() 
-//						+ ", Max: " + monitor.getMaxObservations());
-//				
-//				if(monitor.getObservations() > 6 && monitor.getObservations() == monitor.getMaxObservations()){
-//					if(rnd.nextInt(4) == 0){
-//						e.setKeyChar(QwertySpellWrecker.spellwreck(e.getKeyChar()));
-//						monitor.resetMaxObservations();
-//						keystrokesPerUnitLabel.setForeground(Color.RED);
-//					}
-//				} else {
-//					keystrokesPerUnitLabel.setForeground(Color.BLACK);
-//				}
+				monitor.observe();
+				
+				keystrokesPerUnitLabel.setText("Keystrokes Per Second: " + monitor.getCurrentObservations() 
+						+ ", Average: " + monitor.getAverageObservations() + ", Max: " + monitor.getMaxObservations() 
+						+ ", History Std Deviation: " + monitor.getHistoricalStandardDeviation()
+						+ ", History: " + Arrays.toString(monitor.getHistoricalObservations()));
+				
+				keystrokesPerUnitLabel.setForeground(Color.BLACK);
+				
+				if(monitor.getAverageObservations() > 6){
+					if(monitor.getHistoricalStandardDeviation() < 2.5){
+						if(System.currentTimeMillis() - lastAction > 1000){
+							keystrokesPerUnitLabel.setForeground(Color.RED);
+							e.setKeyChar(QwertySpellWrecker.spellwreck(e.getKeyChar()));
+							lastAction = System.currentTimeMillis();
+						}
+					}
+				}
 			}
 		});
 	}

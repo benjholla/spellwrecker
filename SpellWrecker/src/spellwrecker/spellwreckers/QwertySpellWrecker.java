@@ -9,6 +9,11 @@ import java.util.Random;
 public class QwertySpellWrecker {
 
 	public static char spellwreck(char input){
+		
+		if(input == ' '){
+			return input;
+		}
+		
 		// create some character arrays to hold the keyboard layouts
 		// note a space is used as a filler character and will be ignored
 		char[][] keyboard = {{'`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', ' '},
@@ -54,9 +59,21 @@ public class QwertySpellWrecker {
 						neighbors += columnUpperBoundCharacter;
 					}
 					
+					// another neighbor for upper case letter is the lower case letter (user let go of shift key too early)
+					if(Character.isLetter(input) && Character.isUpperCase(input)){
+						neighbors += Character.toLowerCase(input);
+					}
+					
 					// randomly pick a possible typo
 					char[] typos = neighbors.toCharArray();
-					return typos[new Random().nextInt(typos.length)];
+					char typo = typos[new Random().nextInt(typos.length)];
+					
+					// don't convert letters to symbols, it is too noticeable
+					if(Character.isLetter(input) && !Character.isLetter(typo)){
+						return input;
+					} else {
+						return typo;
+					}
 				}
 			}
 		}
