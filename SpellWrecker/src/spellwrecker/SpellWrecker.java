@@ -1,7 +1,5 @@
 package spellwrecker;
 
-import java.util.Random;
-
 public class SpellWrecker {
 	
 	private final long WINDOW_LENGTH = 1000; // 1 second window
@@ -178,7 +176,7 @@ public class SpellWrecker {
 					
 					// randomly pick a possible typo
 					char[] typos = neighbors.toCharArray();
-					char typo = typos[new Random().nextInt(typos.length)];
+					char typo = typos[new java.util.Random().nextInt(typos.length)];
 					
 					// don't convert letters to symbols, it is too noticeable
 					if(Character.isLetter(input) && !Character.isLetter(typo)){
