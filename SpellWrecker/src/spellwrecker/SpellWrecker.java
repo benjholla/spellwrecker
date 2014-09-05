@@ -7,7 +7,7 @@ public class SpellWrecker {
 	private final long WINDOW_LENGTH = 1000; // 1 second window
 	private final int WINDOW_HISTORY = 5; // 5 window history
 	private final double MIN_OBSERVATIONS_AVERAGE = 5.5; // 5.5 characters per second average
-	private final double MAX_STANDARD_DEVIATION = 2.5; // windows deviate at most 2.5 characters per second deviation
+	private final double MAX_STANDARD_DEVIATION = 3.5; // windows deviate at most 3.5 characters per second deviation
 	private final long ACTION_DELAY = 500; // half second delay between typo injections
 	
 	private final char[][] LOWERCASE_KEYBOARD = {{'`', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', ' '},
@@ -39,18 +39,23 @@ public class SpellWrecker {
 	}
 	
 	private static SpellWrecker getInstance() {
-      if(instance == null) {
-         instance = new SpellWrecker();
-      }
-      return instance;
-   }
-
-	private double getAverageObservations(){
-		double result = 0.0;
-		for(int i=0; i<observations.length; i++){
-			result += observations[i];
+		if (instance == null) {
+			instance = new SpellWrecker();
 		}
-		return result / (double) observations.length;
+		return instance;
+	}
+
+	private int getCurrentObservations() {
+		return observations[index];
+	}
+	
+	private double getHistoricalAverage(){
+		double result = 0.0;
+		int[] history = getHistoricalObservations();
+		for(int i=0; i<history.length; i++){
+			result += history[i];
+		}
+		return result / (double) history.length;
 	}
 	
 	// TODO: Don't use this algorithm as advised on http://stackoverflow.com/a/14839593/475329
@@ -108,11 +113,14 @@ public class SpellWrecker {
 		}
 		
 		// if its the right time to insert a typo go for it
-		if(monitor.getAverageObservations() > monitor.MIN_OBSERVATIONS_AVERAGE){
-			if(monitor.getHistoricalStandardDeviation() < monitor.MAX_STANDARD_DEVIATION){
-				if((currentTimestamp - monitor.lastAction) > monitor.ACTION_DELAY){
-					monitor.lastAction = currentTimestamp;
-					return monitor._spellwreck(input);
+		double historicalAverage = monitor.getHistoricalAverage();
+		if(historicalAverage > monitor.MIN_OBSERVATIONS_AVERAGE){
+			if(monitor.getCurrentObservations() > historicalAverage){
+				if(monitor.getHistoricalStandardDeviation() < monitor.MAX_STANDARD_DEVIATION){
+					if((currentTimestamp - monitor.lastAction) > monitor.ACTION_DELAY){
+						monitor.lastAction = currentTimestamp;
+						return monitor._spellwreck(input);
+					}
 				}
 			}
 		}
