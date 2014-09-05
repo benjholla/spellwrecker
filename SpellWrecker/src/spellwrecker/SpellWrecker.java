@@ -25,7 +25,9 @@ public class SpellWrecker {
 	private int index = 0;
 	private long lastAction = System.currentTimeMillis();
 
-	public SpellWrecker(){
+	private static SpellWrecker instance = null;
+	
+	private SpellWrecker(){
 		this.observations = new int[WINDOW_HISTORY + 1];
 		this.timestamps = new long[WINDOW_HISTORY + 1];
 		
@@ -35,6 +37,13 @@ public class SpellWrecker {
 			timestamps[i-1] = currentTimestamp + (i * WINDOW_LENGTH);
 		}
 	}
+	
+	private static SpellWrecker getInstance() {
+      if(instance == null) {
+         instance = new SpellWrecker();
+      }
+      return instance;
+   }
 
 	private double getAverageObservations(){
 		double result = 0.0;
@@ -77,31 +86,33 @@ public class SpellWrecker {
 		return historicalObservations;
 	}
 	
-	public char spellwreck(char input){
+	public static char spellwreck(char input){
+		// there can only be one SPELLWRECKER!!!!!
+		SpellWrecker monitor = getInstance();
 		
 		// record the observation
 		long currentTimestamp = System.currentTimeMillis();
-		if(currentTimestamp < timestamps[index]){
-			observations[index]++;
+		if(currentTimestamp < monitor.timestamps[monitor.index]){
+			monitor.observations[monitor.index]++;
 		} else {
-			while(currentTimestamp >= timestamps[index]){
-				long lastTimestamp = timestamps[index];
-				index = (index + 1) % timestamps.length;
+			while(currentTimestamp >= monitor.timestamps[monitor.index]){
+				long lastTimestamp = monitor.timestamps[monitor.index];
+				monitor.index = (monitor.index + 1) % monitor.timestamps.length;
 				// extend history forward  by one cell if needed
-				if(lastTimestamp > timestamps[index]){
-					timestamps[index] = lastTimestamp + WINDOW_LENGTH;
-					observations[index] = 0;
+				if(lastTimestamp > monitor.timestamps[monitor.index]){
+					monitor.timestamps[monitor.index] = lastTimestamp + monitor.WINDOW_LENGTH;
+					monitor.observations[monitor.index] = 0;
 				}
 			}
-			observations[index]++;
+			monitor.observations[monitor.index]++;
 		}
 		
 		// if its the right time to insert a typo go for it
-		if(getAverageObservations() > MIN_OBSERVATIONS_AVERAGE){
-			if(getHistoricalStandardDeviation() < MAX_STANDARD_DEVIATION){
-				if((currentTimestamp - lastAction) > ACTION_DELAY){
-					lastAction = currentTimestamp;
-					return _spellwreck(input);
+		if(monitor.getAverageObservations() > monitor.MIN_OBSERVATIONS_AVERAGE){
+			if(monitor.getHistoricalStandardDeviation() < monitor.MAX_STANDARD_DEVIATION){
+				if((currentTimestamp - monitor.lastAction) > monitor.ACTION_DELAY){
+					monitor.lastAction = currentTimestamp;
+					return monitor._spellwreck(input);
 				}
 			}
 		}

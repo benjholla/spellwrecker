@@ -50,12 +50,10 @@ public class TestSpellWrecker {
 		monitoredTextArea.setWrapStyleWord(true);
 		frame.getContentPane().add(monitoredTextArea);
 		
-		final SpellWrecker monitor = new SpellWrecker();
-		
 		monitoredTextArea.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent e) {
-				e.setKeyChar(monitor.spellwreck(e.getKeyChar()));
+				e.setKeyChar(SpellWrecker.spellwreck(e.getKeyChar()));
 			}
 		});
 	}
