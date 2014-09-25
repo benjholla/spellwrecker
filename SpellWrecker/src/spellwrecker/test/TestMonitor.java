@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.text.DecimalFormat;
 import java.util.Arrays;
 
 import javax.swing.JFrame;
@@ -14,6 +15,7 @@ import javax.swing.SwingConstants;
 
 import spellwrecker.components.monitors.Monitor;
 import spellwrecker.components.spellwreckers.QwertySpellWrecker;
+import java.awt.Font;
 
 public class TestMonitor {
 
@@ -54,10 +56,12 @@ public class TestMonitor {
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		final JTextArea monitoredTextArea = new JTextArea();
+		monitoredTextArea.setLineWrap(true);
+		monitoredTextArea.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		monitoredTextArea.setWrapStyleWord(true);
 		frame.getContentPane().add(monitoredTextArea);
 		
-		final JLabel keystrokesPerUnitLabel = new JLabel("Keystrokes Per Second: ");
+		final JLabel keystrokesPerUnitLabel = new JLabel("");
 		keystrokesPerUnitLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		frame.getContentPane().add(keystrokesPerUnitLabel, BorderLayout.NORTH);
 		
@@ -68,16 +72,17 @@ public class TestMonitor {
 			public void keyTyped(KeyEvent e) {
 				monitor.observe();
 				
+				DecimalFormat df = new DecimalFormat("#.##");
 				keystrokesPerUnitLabel.setText("Keystrokes Per Second: " + monitor.getCurrentObservations() 
-						+ ", Average: " + monitor.getAverageObservations() + ", Max: " + monitor.getMaxObservations() 
-						+ ", History Std Deviation: " + monitor.getHistoricalStandardDeviation()
+						+ ", Average: " + df.format(monitor.getAverageObservations()) + ", Max: " + monitor.getMaxObservations() 
+						+ ", History Std Deviation: " + df.format(monitor.getHistoricalStandardDeviation())
 						+ ", History: " + Arrays.toString(monitor.getHistoricalObservations()));
 				
 				keystrokesPerUnitLabel.setForeground(Color.BLACK);
 				
-				if(monitor.getAverageObservations() > 6){
-					if(monitor.getHistoricalStandardDeviation() < 2.5){
-						if(System.currentTimeMillis() - lastAction > 1000){
+				if(monitor.getAverageObservations() > 3){
+					if(monitor.getHistoricalStandardDeviation() < 3.5){
+						if(System.currentTimeMillis() - lastAction > 700){
 							keystrokesPerUnitLabel.setForeground(Color.RED);
 							e.setKeyChar(QwertySpellWrecker.spellwreck(e.getKeyChar()));
 							lastAction = System.currentTimeMillis();
