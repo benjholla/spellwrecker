@@ -4,7 +4,7 @@ public class SpellWrecker {
 	
 	private final long WINDOW_LENGTH = 1000; // 1 second window
 	private final int WINDOW_HISTORY = 5; // 5 window history
-	private final double MIN_OBSERVATIONS_AVERAGE = 5.5; // 5.5 characters per second average
+	private final double MIN_OBSERVATIONS_AVERAGE = 3; // 3 characters per second average
 	private final double MAX_STANDARD_DEVIATION = 3.5; // windows deviate at most 3.5 characters per second deviation
 	private final long ACTION_DELAY = 500; // half second delay between typo injections
 	
