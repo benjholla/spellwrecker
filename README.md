@@ -3,7 +3,7 @@ SpellWrecker
 
 An evil spellchecker designed for a managed code Java virtual machine rootkit.  Both SpellWrecker implementations insert more typos the faster you type.  As you slow down to correct your spelling mistakes the SpellWrecker begins to behave benignly.  It's goal is to decrease productivity.
 
-**Implementation 1:** Using a Markov chain, this implementation corrupts the input character by predicting the next character.  More often than not the prediction will be wrong, but similar to the observed training input.  This implementation has a larger memory footprint than implementation 2.  The memory footprint grows with the size of the length Markov Chain, but the typos produced are more realistic with longer chains.
+**Implementation 1:** Using a Markov chain, this implementation corrupts the input character by predicting the next character.  More often than not the prediction will be wrong, but similar to the observed training input.  This implementation has a larger memory footprint than the second implementation.  The memory footprint depends on the length Markov Chain. The longer the Markov chain the more realistic the typos will be, but a longer Markov chain also requires a larger amount of memory.
 
 **Implementation 2:** Picks a suitable typo based on keys that are physically located near each other on a QWERTY keyboard.  This implementation has a very low footprint and would be an ideal candidate for inserting as a managed code rootkit payload.
 
